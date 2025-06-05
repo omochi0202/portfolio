@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>SARADA ポートフォリオ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Serif JP', serif;
+      background: #1a1a2e;
+      color: #333;
+      overflow-x: hidden;
+    }
+    .hero {
+      width: 100vw;
+      height: 350px;
+      background: url('img/img22.png') center center/cover no-repeat;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.5s ease;
+    }
+    .hero-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.05);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      font-size: 3.5rem;
+      font-weight: 300;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      text-align: center;
+      letter-spacing: 0.5em;
+      font-family: 'Playfair Display', serif;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: scale(0.8) translateY(20px);
+      animation: heroFadeInOut 2.5s ease-in-out forwards;
+    }
+    .category-section {
+      margin-bottom: 60px;
+    }
+    .category-title {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: #fff;
+      margin-bottom: 40px;
+      letter-spacing: 0.3em;
+      font-family: 'Playfair Display', serif;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: titleFadeIn 0.8s ease forwards;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 220px);
+      gap: 32px;
+      margin-bottom: 40px;
+      justify-content: center;
+    }
+    .main-content {
+      margin-top: 40px;
+      padding-bottom: 40px;
+    }
+    .portfolio-item {
+      width: 220px;
+      height: 220px;
+      background: rgba(255,255,255,0.85);
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.3s ease;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s ease forwards;
+    }
+    .category-section:nth-child(1) .category-title { animation-delay: 1.8s; }
+    .category-section:nth-child(2) .category-title { animation-delay: 1.8s; }
+    .category-section:nth-child(3) .category-title { animation-delay: 1.8s; }
+
+    .category-section:nth-child(1) .portfolio-item:nth-child(1) { animation-delay: 2.5s; }
+    .category-section:nth-child(1) .portfolio-item:nth-child(2) { animation-delay: 2.5s; }
+    .category-section:nth-child(1) .portfolio-item:nth-child(3) { animation-delay: 2.5s; }
+    
+    .category-section:nth-child(2) .portfolio-item:nth-child(1) { animation-delay: 2.5s; }
+    .category-section:nth-child(2) .portfolio-item:nth-child(2) { animation-delay: 2.5s; }
+    
+    .category-section:nth-child(3) .portfolio-item:nth-child(1) { animation-delay: 2.5s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes titleFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes heroFadeInOut {
+      0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+      }
+      40% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+      72% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.1) translateY(-10px);
+      }
+    }
+
+    .portfolio-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    }
+
+    .portfolio-item:hover ~ .hero {
+      background-image: var(--hover-bg);
+    }
+
+    .portfolio-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #fff;
+      letter-spacing: 0.1em;
+      font-family: 'Noto Serif JP', serif;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+
+    .portfolio-desc {
+      font-size: 0.95rem;
+      color: #ccc;
+      letter-spacing: 0.08em;
+      font-family: 'Noto Serif JP', serif;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+
+    .portfolio-item:hover .portfolio-title,
+    .portfolio-item:hover .portfolio-desc {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .portfolio-logo {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      color: #bbb;
+    }
+    @media (max-width: 900px) {
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 200px);
+        gap: 20px;
+      }
+      .portfolio-item {
+        width: 200px;
+        height: 200px;
+      }
+      .portfolio-title,
+      .portfolio-desc {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .category-title {
+        font-size: 1.8rem;
+        letter-spacing: 0.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      GALLERY
+    </div>
+  </div>
+  <div class="main-content">
+    <!-- ウェブサイトセクション -->
+    <div class="category-section">
+      <h2 class="category-title">Website</h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item" style="background-image: url('img/soccerteam.png')" data-bg="img/soccerteam.png">
+          <div class="portfolio-title">soccer team</div>
+          <div class="portfolio-desc">CI 2017</div>
+        </div>
+        <div class="portfolio-item" style="background-image: url('img/romancecafe.png')" data-bg="img/romancecafe.png">
+          <div class="portfolio-title">珈琲工房　花鳥風月</div>
+          <div class="portfolio-desc">BI 2017</div>
+        </div>
+        <div class="portfolio-item" style="background-image: url('img/img2.jpg')" data-bg="img/img2.jpg">
+          <div class="portfolio-title">VONGO & ANCHOR</div>
+          <div class="portfolio-desc">BI 2016</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ゲームセクション -->
+    <div class="category-section">
+      <h2 class="category-title">Game</h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item" style="background-image: url('img/game1.png')" data-bg="img/game1.png">
+          <div class="portfolio-title">パズルゲーム</div>
+          <div class="portfolio-desc">2025</div>
+        </div>
+        <div class="portfolio-item" style="background-image: url('img/memorygame.png')" data-bg="img/img4.jpg">
+          <div class="portfolio-title">神経衰弱</div>
+          <div class="portfolio-desc">2025</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 画像セクション -->
+    <div class="category-section">
+      <h2 class="category-title">Illustration</h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item" style="background-image: url('img/img2.jpg')" data-bg="img/img2.jpg">
+          <div class="portfolio-title">CAPESON</div>
+          <div class="portfolio-desc">VI 2015</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 背景画像の配列を定義
+    const backgroundImages = [
+      'img/img22.png',
+      'img/img23.png',
+      'img/img24.png',
+      'img/img25.png'
+    ];
+
+    // ランダムな背景画像を取得する関数
+    function getRandomBackground() {
+      const randomIndex = Math.floor(Math.random() * backgroundImages.length);
+      return backgroundImages[randomIndex];
+    }
+
+    // 初期背景をランダムに設定
+    document.querySelector('.hero').style.backgroundImage = `url('${getRandomBackground()}')`;
+
+    // ポートフォリオアイテムのホバーイベント
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        document.querySelector('.hero').style.backgroundImage = `url('${item.dataset.bg}')`;
+      });
+      item.addEventListener('mouseleave', () => {
+        document.querySelector('.hero').style.backgroundImage = `url('${getRandomBackground()}')`;
+      });
+    });
+  </script>
+</body>
+</html>
