@@ -1,0 +1,673 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    overflow: hidden;
+    position: relative;
+    height: 100vh;
+}
+
+/* 画面共通 */
+.screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* スタート画面 */
+#start-screen {
+    background: linear-gradient(135deg, 
+        #ffffff 0%, 
+        #e6f7ff 25%, 
+        #ccf2ff 50%, 
+        #b3ecff 75%, 
+        #ffffff 100%);
+    background-image: url('img/back2.png');  /* デスクトップ用：back2.png */
+    background-size: auto 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+/* スマートフォン・タブレット用の背景画像 */
+@media (max-width: 768px) {
+    #start-screen {
+        background-image: url('img/back1.png');  /* モバイル用：back1.png */
+    }
+}
+
+.start-content {
+    text-align: center;
+    background: #f8f8f8;
+    border: 4px solid #808080;  /* 黒からグレーに変更 */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 
+        inset -2px -2px 0px #c0c0c0,
+        inset 2px 2px 0px #ffffff,
+        4px 4px 0px #606060;  /* シャドウもグレーに */
+    max-width: 90%;
+    width: 420px;
+    font-family: 'DotGothic16', monospace;
+    position: relative;
+}
+
+/* レトロゲーム風の内側ボーダー */
+.start-content::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 2px solid #606060;  /* 内側の枠もグレーに */
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.start-content h1 {
+    color: #FF69B4;  /* ホットピンク - かわいいパステル系 */
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    font-family: 'M PLUS Rounded 1c', sans-serif;  /* 丸文字に戻す */
+    font-weight: 800;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    line-height: 1.2;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.character-button {
+    background: #FFB6C1;  /* パステルピンク */
+    color: #333333;
+    border: 3px solid #808080;  /* グレーに変更 */
+    padding: 12px 24px;
+    border-radius: 0;
+    font-size: 1rem;
+    font-family: 'DotGothic16', monospace;
+    font-weight: normal;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    box-shadow: 
+        inset -2px -2px 0px #E6A1B6,
+        inset 2px 2px 0px #FFCCCB,
+        3px 3px 0px #606060;  /* シャドウもグレーに */
+    text-shadow: 1px 1px 0px #ffffff;
+    position: relative;
+}
+
+.character-button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 
+        inset -2px -2px 0px #E6A1B6,
+        inset 2px 2px 0px #FFCCCB,
+        2px 2px 0px #606060;  /* グレーに変更 */
+    background: #FFCCCB;
+}
+
+.character-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 
+        inset -2px -2px 0px #E6A1B6,
+        inset 2px 2px 0px #FFCCCB,
+        1px 1px 0px #606060;  /* グレーに変更 */
+}
+
+/* ゲーム画面 */
+#game-screen {
+    background: linear-gradient(135deg, 
+        #ffffff 0%, 
+        #e6f7ff 25%, 
+        #ccf2ff 50%, 
+        #b3ecff 75%, 
+        #ffffff 100%);
+    flex-direction: column;
+    padding: 20px;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+    color: #000000;
+    background: #f8f8f8;
+    border: 4px solid #808080;  /* グレーに変更 */
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 
+        inset -2px -2px 0px #c0c0c0,
+        inset 2px 2px 0px #ffffff,
+        4px 4px 0px #606060;  /* シャドウもグレーに */
+    font-family: 'DotGothic16', monospace;
+    position: relative;
+}
+
+/* ゲームヘッダーの内側ボーダー */
+.game-header::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border: 2px solid #606060;  /* 内側の枠もグレーに */
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.game-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#current-mode {
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: #000080;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 1px 1px 0px #c0c0ff;
+    line-height: 1.3;
+}
+
+.game-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+    color: #000000;
+    margin-top: 5px;
+    font-family: 'DotGothic16', monospace;
+}
+
+#score, #attempts, #timer {
+    font-size: 0.9rem;
+    opacity: 1;
+    color: #000000;
+    font-family: 'DotGothic16', monospace;
+}
+
+#back-button {
+    background: #ADD8E6;  /* パステルブルー */
+    color: #333333;
+    border: 3px solid #808080;  /* グレーに変更 */
+    padding: 8px 16px;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: 'DotGothic16', monospace;
+    transition: all 0.1s ease;
+    box-shadow: 
+        inset -2px -2px 0px #9ACDDB,
+        inset 2px 2px 0px #B0E0E6,
+        3px 3px 0px #606060;  /* シャドウもグレーに */
+    text-shadow: 1px 1px 0px #ffffff;
+}
+
+#back-button:hover {
+    background: #B0E0E6;
+    transform: translate(1px, 1px);
+    box-shadow: 
+        inset -2px -2px 0px #9ACDDB,
+        inset 2px 2px 0px #B0E0E6,
+        2px 2px 0px #606060;  /* グレーに変更 */
+}
+
+/* ゲームボード */
+.game-board {
+    display: grid;
+    gap: 10px;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.game-board.easy {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.game-board.normal {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.game-board.hard {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.card {
+    aspect-ratio: 1;
+    background: white;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.6s ease;
+    min-height: 80px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+/* カードのホバー効果を削除してカード模様の動きを防ぐ */
+.card:hover {
+    /* transform: scale(1.05); を削除 */
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.card.flipped:hover {
+    transform: rotateY(180deg) scale(1.05);
+}
+
+.card.matched {
+    opacity: 1;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(255, 215, 0, 0.6);
+}
+
+.card.flipped.matched {
+    transform: rotateY(180deg);
+}
+
+.card.flipped.matched:hover {
+    transform: rotateY(180deg) scale(1.02);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #4a5568;
+    background: white;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+/* 画像カード用のスタイル */
+.card[data-type$=".jpg"] .card-back,
+.card[data-type$=".png"] .card-back {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+}
+
+.card-front {
+    background: linear-gradient(135deg, #e8f4fd, #b8e6ff);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.card-front::before {
+    content: '';  /* ？マークを削除 */
+    font-size: 3rem;
+    color: rgba(113, 128, 150, 0.6);
+}
+
+/* おめでとう画面 */
+.congratulations {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;  /* 白に変更 */
+    border: 4px solid #808080;  /* グレーに変更 */
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 
+        inset -2px -2px 0px #e0e0e0,
+        inset 2px 2px 0px #ffffff,
+        6px 6px 0px #606060;  /* シャドウもグレーに */
+    z-index: 1000;
+    max-width: 90%;
+    width: 400px;
+    font-family: 'DotGothic16', monospace;
+}
+
+/* おめでとう画面の内側ボーダー */
+.congratulations::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 2px solid #606060;  /* 内側の枠もグレーに */
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.congratulations.hidden {
+    display: none;
+}
+
+.congratulations h2 {
+    color: #32CD32;  /* ライムグリーン - かわいいパステル系 */
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 2px 2px 0px #c0ffc0;  /* 薄い緑のシャドウ */
+    line-height: 1.5;
+}
+
+.congratulations p {
+    color: #333333;
+    font-size: 1rem;
+    font-family: 'DotGothic16', monospace;
+    text-shadow: 1px 1px 0px #ffffff;
+}
+
+/* クリア画面 */
+#clear-screen {
+    background: linear-gradient(135deg, 
+        #ffffff 0%, 
+        #e6f7ff 25%, 
+        #ccf2ff 50%, 
+        #b3ecff 75%, 
+        #ffffff 100%);
+}
+
+.clear-content {
+    text-align: center;
+    background: #ffffff;  /* 白に変更 */
+    border: 4px solid #808080;  /* グレーに変更 */
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 
+        inset -2px -2px 0px #e0e0e0,
+        inset 2px 2px 0px #ffffff,
+        6px 6px 0px #606060;  /* シャドウもグレーに */
+    max-width: 90%;
+    width: 420px;
+    font-family: 'DotGothic16', monospace;
+    position: relative;
+    animation: celebrationBounce 0.8s ease-out;
+}
+
+/* Perfect Clear画面の内側ボーダー */
+.clear-content::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 2px solid #606060;  /* 内側の枠もグレーに */
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.clear-content h1 {
+    color: #9370DB;  /* ミディアムパープル - かわいいパステル系 */
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 2px 2px 0px #d8c0ff;  /* 薄い紫のシャドウ */
+    line-height: 1.5;
+    animation: sparkleTitle 2s ease-in-out infinite alternate;
+    background: linear-gradient(45deg, #9370DB, #FFD700, #FF69B4, #32CD32, #9370DB);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Perfect Clearタイトルの輝きアニメーション */
+@keyframes sparkleTitle {
+    0% {
+        background-position: 0% 50%;
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        background-position: 100% 50%;
+        transform: scale(1.05);
+        filter: brightness(1.3) drop-shadow(0 0 10px #FFD700);
+    }
+    100% {
+        background-position: 0% 50%;
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
+
+.clear-content p {
+    color: #333333;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    font-family: 'DotGothic16', monospace;
+    text-shadow: 1px 1px 0px #ffffff;
+}
+
+#restart-button {
+    background: #98FB98;  /* パステルグリーン */
+    color: #333333;
+    border: 3px solid #808080;  /* グレーに変更 */
+    padding: 12px 24px;
+    border-radius: 0;
+    font-size: 1rem;
+    font-family: 'DotGothic16', monospace;
+    font-weight: normal;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    box-shadow: 
+        inset -2px -2px 0px #85E085,
+        inset 2px 2px 0px #AFFDAF,
+        3px 3px 0px #606060;  /* シャドウもグレーに */
+    text-shadow: 1px 1px 0px #ffffff;
+}
+
+#restart-button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 
+        inset -2px -2px 0px #85E085,
+        inset 2px 2px 0px #AFFDAF,
+        2px 2px 0px #606060;  /* グレーに変更 */
+    background: #AFFDAF;
+}
+
+/* キラキラエフェクト */
+#sparkle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* 星が舞い散るエフェクト */
+.celebration-star {
+    position: fixed;
+    font-size: 20px;
+    color: #FFD700;
+    pointer-events: none;
+    z-index: 2000;
+    animation: fallingStar 3s linear infinite;
+}
+
+.celebration-star:nth-child(odd) {
+    color: #FF69B4;
+    font-size: 16px;
+    animation-duration: 2.5s;
+}
+
+.celebration-star:nth-child(3n) {
+    color: #32CD32;
+    font-size: 24px;
+    animation-duration: 3.5s;
+}
+
+.celebration-star:nth-child(4n) {
+    color: #9370DB;
+    font-size: 18px;
+    animation-duration: 4s;
+}
+
+@keyframes fallingStar {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(50vh) rotate(180deg);
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .start-content,
+    .clear-content {
+        padding: 30px 20px;
+        width: 90%;
+    }
+    
+    .start-content h1,
+    .clear-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .character-button,
+    #restart-button {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    .game-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 12px 15px;
+    }
+    
+    #current-mode {
+        font-size: 1.2rem;
+    }
+    
+    .game-stats {
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .game-board {
+        gap: 8px;
+        max-width: 350px;
+    }
+    
+    .card {
+        min-height: 60px;
+    }
+    
+    .card-front::before {
+        font-size: 2rem;
+    }
+    
+    .card-back {
+        font-size: 1.5rem;
+    }
+    
+    .congratulations {
+        padding: 30px 20px;
+        width: 90%;
+    }
+    
+    .congratulations h2 {
+        font-size: 1.5rem;
+    }
+    
+    .congratulations p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-board {
+        max-width: 280px;
+        gap: 5px;
+    }
+    
+    .game-board.normal {
+        grid-template-columns: repeat(2, 1fr);  /* 2列 */
+        grid-template-rows: repeat(3, 1fr);     /* 3行 */
+    }
+    
+    .game-board.hard {
+        grid-template-columns: repeat(2, 1fr);  /* 2列 */
+        grid-template-rows: repeat(4, 1fr);     /* 4行 */
+    }
+    
+    .card {
+        min-height: 50px;
+    }
+    
+    .card-front::before {
+        font-size: 1.5rem;
+    }
+    
+    .card-back {
+        font-size: 1.2rem;
+    }
+    
+    .game-stats {
+        gap: 10px;
+        font-size: 0.8rem;
+    }
+}
+
+/* 登場時のバウンスアニメーション */
+@keyframes celebrationBounce {
+    0% {
+        transform: scale(0) rotate(-360deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1) rotate(-180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+} 

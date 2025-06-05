@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>試合結果 - サッカーチーム</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .results-table {
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            border-collapse: collapse;
+        }
+        .results-table th,
+        .results-table td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .results-table th {
+            background-color: #f5f5f5;
+        }
+        .win {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .lose {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .draw {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        .season-selector {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .season-selector select {
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html#schedule">試合日程</a></li>
+                <li><a href="results.html">試合結果</a></li>
+                <li><a href="index.html#players">選手紹介</a></li>
+                <li><a href="index.html#fanclub">ファンクラブ</a></li>
+                <li><a href="index.html#videos">動画</a></li>
+                <li><a href="index.html#goods">グッズ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>試合結果</h1>
+        
+        <div class="season-selector">
+            <select id="season-select">
+                <option value="2024">2024シーズン</option>
+                <option value="2023">2023シーズン</option>
+            </select>
+        </div>
+
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>日付</th>
+                    <th>大会</th>
+                    <th>ホーム</th>
+                    <th>スコア</th>
+                    <th>アウェイ</th>
+                    <th>会場</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2024年4月20日</td>
+                    <td>リーグ戦</td>
+                    <td>当チーム</td>
+                    <td class="win">3 - 1</td>
+                    <td>チームA</td>
+                    <td>ホームスタジアム</td>
+                </tr>
+                <tr>
+                    <td>2024年4月13日</td>
+                    <td>リーグ戦</td>
+                    <td>チームB</td>
+                    <td class="lose">2 - 0</td>
+                    <td>当チーム</td>
+                    <td>アウェイスタジアム</td>
+                </tr>
+                <tr>
+                    <td>2024年4月6日</td>
+                    <td>カップ戦</td>
+                    <td>当チーム</td>
+                    <td class="draw">1 - 1</td>
+                    <td>チームC</td>
+                    <td>ホームスタジアム</td>
+                </tr>
+                <tr>
+                    <td>2024年3月30日</td>
+                    <td>リーグ戦</td>
+                    <td>チームD</td>
+                    <td class="win">0 - 2</td>
+                    <td>当チーム</td>
+                    <td>アウェイスタジアム</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        document.getElementById('season-select').addEventListener('change', function() {
+            // シーズン選択時の処理をここに追加
+            console.log('Selected season:', this.value);
+        });
+    </script>
+</body>
+</html> 

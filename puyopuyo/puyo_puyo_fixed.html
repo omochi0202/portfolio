@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ぷよぷよゲーム</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 50%, #333333 100%);
+            color: #f4e4bc;
+            font-family: 'Comfortaa', 'Nunito', 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        .game-container {
+            text-align: center;
+            max-width: 100vw;
+            padding: 10px;
+            position: relative;
+        }
+        
+        .game-board {
+            display: inline-block;
+            background: 
+                linear-gradient(135deg, rgba(42, 42, 42, 0.7) 0%, rgba(26, 26, 26, 0.8) 100%),
+                url('image/image1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 20px;
+            border-radius: 25px;
+            position: relative;
+            border: 6px solid transparent;
+            background-clip: padding-box;
+            box-shadow: 
+                0 0 40px rgba(74, 144, 226, 0.4),
+                inset 0 0 20px rgba(74, 144, 226, 0.1),
+                0 15px 35px rgba(0,0,0,0.6);
+        }
+        
+        .game-board::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            background: linear-gradient(45deg, #2E4A6B, #4A90E2, #87CEEB, #4A90E2, #2E4A6B);
+            border-radius: 31px;
+            z-index: -1;
+            animation: blueShimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes blueShimmer {
+            0%, 100% { 
+                opacity: 0.8;
+                filter: brightness(1);
+            }
+            50% { 
+                opacity: 1;
+                filter: brightness(1.2);
+            }
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(6, 35px);
+            grid-template-rows: repeat(12, 35px);
+            gap: 2px;
+            margin: 10px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cell {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .pink { 
+            background: radial-gradient(circle at 25% 25%, 
+                        rgba(255, 255, 255, 0.4) 0%, 
+                        rgba(220, 20, 60, 0.8) 30%, 
+                        rgba(139, 0, 139, 0.9) 70%, 
+                        rgba(75, 0, 130, 1) 100%);
+            border: 2px solid rgba(255, 20, 147, 0.6);
+            box-shadow: 
+                inset 0 4px 8px rgba(255, 255, 255, 0.3), 
+                inset 0 -4px 8px rgba(75, 0, 130, 0.5),
+                0 4px 15px rgba(255, 20, 147, 0.4),
+                0 0 20px rgba(255, 20, 147, 0.2);
+        }
+        .lightblue { 
+            background: radial-gradient(circle at 25% 25%, 
+                        rgba(255, 255, 255, 0.4) 0%, 
+                        rgba(0, 100, 200, 0.8) 30%, 
+                        rgba(0, 50, 150, 0.9) 70%, 
+                        rgba(0, 20, 100, 1) 100%);
+            border: 2px solid rgba(30, 144, 255, 0.6);
+            box-shadow: 
+                inset 0 4px 8px rgba(255, 255, 255, 0.3), 
+                inset 0 -4px 8px rgba(0, 20, 100, 0.5),
+                0 4px 15px rgba(30, 144, 255, 0.4),
+                0 0 20px rgba(30, 144, 255, 0.2);
+        }
+        .lightpurple { 
+            background: radial-gradient(circle at 25% 25%, 
+                        rgba(255, 255, 255, 0.4) 0%, 
+                        rgba(138, 43, 226, 0.8) 30%, 
+                        rgba(75, 0, 130, 0.9) 70%, 
+                        rgba(50, 0, 80, 1) 100%);
+            border: 2px solid rgba(147, 112, 219, 0.6);
+            box-shadow: 
+                inset 0 4px 8px rgba(255, 255, 255, 0.3), 
+                inset 0 -4px 8px rgba(50, 0, 80, 0.5),
+                0 4px 15px rgba(147, 112, 219, 0.4),
+                0 0 20px rgba(147, 112, 219, 0.2);
+        }
+        .lightgreen { 
+            background: radial-gradient(circle at 25% 25%, 
+                        rgba(255, 255, 255, 0.4) 0%, 
+                        rgba(34, 139, 34, 0.8) 30%, 
+                        rgba(0, 100, 0, 0.9) 70%, 
+                        rgba(0, 50, 0, 1) 100%);
+            border: 2px solid rgba(50, 205, 50, 0.6);
+            box-shadow: 
+                inset 0 4px 8px rgba(255, 255, 255, 0.3), 
+                inset 0 -4px 8px rgba(0, 50, 0, 0.5),
+                0 4px 15px rgba(50, 205, 50, 0.4),
+                0 0 20px rgba(50, 205, 50, 0.2);
+        }
+        .lightyellow { 
+            background: radial-gradient(circle at 25% 25%, 
+                        rgba(255, 255, 255, 0.4) 0%, 
+                        rgba(255, 165, 0, 0.8) 30%, 
+                        rgba(218, 165, 32, 0.9) 70%, 
+                        rgba(184, 134, 11, 1) 100%);
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            box-shadow: 
+                inset 0 4px 8px rgba(255, 255, 255, 0.3), 
+                inset 0 -4px 8px rgba(184, 134, 11, 0.5),
+                0 4px 15px rgba(255, 215, 0, 0.4),
+                0 0 20px rgba(255, 215, 0, 0.2);
+        }
+        .empty { 
+            background: transparent;
+            border: none;
+        }
+        
+        .info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 18px;
+            z-index: 10;
+        }
+        
+        .next-puyo-container {
+            background: linear-gradient(135deg, rgba(42, 42, 42, 0.9) 0%, rgba(26, 26, 26, 0.95) 100%);
+            border: 3px solid transparent;
+            border-radius: 20px;
+            padding: 15px;
+            position: relative;
+            background-clip: padding-box;
+            box-shadow: 
+                0 0 20px rgba(74, 144, 226, 0.2),
+                inset 0 0 10px rgba(74, 144, 226, 0.1),
+                0 4px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        .next-puyo-container::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #2E4A6B, #4A90E2, #87CEEB);
+            border-radius: 23px;
+            z-index: -1;
+        }
+        
+        .next-puyo-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(42, 42, 42, 0.9) 0%, rgba(26, 26, 26, 0.95) 100%);
+            border-radius: 20px;
+            z-index: -1;
+        }
+        
+        .next-puyo-title {
+            font-size: 16px;
+            margin-bottom: 8px;
+            text-align: center;
+            color: #4A90E2;
+            font-weight: 600;
+            font-family: 'Comfortaa', sans-serif;
+            text-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+        }
+        
+        .next-puyo-display {
+            display: grid;
+            grid-template-columns: repeat(2, 25px);
+            grid-template-rows: repeat(2, 25px);
+            gap: 2px;
+            justify-content: center;
+            align-content: center;
+            margin: 0 auto;
+        }
+        
+        .mini-puyo {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .mini-puyo.pink {
+            background: radial-gradient(circle at 25% 25%, 
+                        rgba(255, 255, 255, 0.4) 0%, 
+                        rgba(220, 20, 60, 0.8) 30%, 
+                        rgba(139, 0, 139, 0.9) 70%, 
+                        rgba(75, 0, 130, 1) 100%);
+            border: 1px solid rgba(255, 20, 147, 0.6);
+            box-shadow: 0 0 8px rgba(255, 20, 147, 0.3);
+        }
+        
+        .mini-puyo.lightblue {
+            background: radial-gradient(circle at 25% 25%, 
+                        rgba(255, 255, 255, 0.4) 0%, 
+                        rgba(0, 100, 200, 0.8) 30%, 
+                        rgba(0, 50, 150, 0.9) 70%, 
+                        rgba(0, 20, 100, 1) 100%);
+            border: 1px solid rgba(30, 144, 255, 0.6);
+            box-shadow: 0 0 8px rgba(30, 144, 255, 0.3);
+        }
+        
+        .mini-puyo.lightpurple {
+            background: radial-gradient(circle at 25% 25%, 
+                        rgba(255, 255, 255, 0.4) 0%, 
+                        rgba(138, 43, 226, 0.8) 30%, 
+                        rgba(75, 0, 130, 0.9) 70%, 
+                        rgba(50, 0, 80, 1) 100%);
+            border: 1px solid rgba(147, 112, 219, 0.6);
+            box-shadow: 0 0 8px rgba(147, 112, 219, 0.3);
+        }
+        
+        .mini-puyo.lightgreen {
+            background: radial-gradient(circle at 25% 25%, 
+                        rgba(255, 255, 255, 0.4) 0%, 
+                        rgba(34, 139, 34, 0.8) 30%, 
+                        rgba(0, 100, 0, 0.9) 70%, 
+                        rgba(0, 50, 0, 1) 100%);
+            border: 1px solid rgba(50, 205, 50, 0.6);
+            box-shadow: 0 0 8px rgba(50, 205, 50, 0.3);
+        }
+        
+        .mini-puyo.lightyellow {
+            background: radial-gradient(circle at 25% 25%, 
+                        rgba(255, 255, 255, 0.4) 0%, 
+                        rgba(255, 165, 0, 0.8) 30%, 
+                        rgba(218, 165, 32, 0.9) 70%, 
+                        rgba(184, 134, 11, 1) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.6);
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+        }
+        
+        .controls {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #87CEEB;
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 400;
+            text-shadow: 0 0 5px rgba(135, 206, 235, 0.5);
+        }
+        
+        .mobile-controls {
+            display: none;
+            margin-top: 20px;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .control-button {
+            background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
+            border: 2px solid transparent;
+            color: #4A90E2;
+            padding: 15px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            touch-action: manipulation;
+            transition: all 0.2s ease;
+            min-width: 60px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-clip: padding-box;
+            box-shadow: 
+                0 0 15px rgba(74, 144, 226, 0.2),
+                0 2px 8px rgba(0,0,0,0.3);
+            text-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+        }
+        
+        .control-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #2E4A6B, #4A90E2, #87CEEB);
+            border-radius: 22px;
+            z-index: -1;
+        }
+        
+        .control-button:active {
+            background: linear-gradient(135deg, #4a4a4a 0%, #3a3a3a 100%);
+            transform: scale(0.95);
+            box-shadow: 
+                0 0 20px rgba(74, 144, 226, 0.3),
+                0 1px 4px rgba(0,0,0,0.4);
+        }
+        
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            font-size: 20px;
+            animation: sparkleAnimation 1s ease-out forwards;
+        }
+        
+        @keyframes sparkleAnimation {
+            0% {
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) rotate(360deg);
+            }
+        }
+        
+        .chain-text {
+            position: absolute;
+            pointer-events: none;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Comfortaa', sans-serif;
+            text-shadow: 
+                0 0 10px rgba(255, 165, 0, 0.8),
+                2px 2px 4px rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            animation: chainTextAnimation 2s ease-out forwards;
+        }
+        
+        @keyframes chainTextAnimation {
+            0% {
+                opacity: 1;
+                transform: scale(0.5) translateY(0);
+                color: #FFD700;
+            }
+            25% {
+                opacity: 1;
+                transform: scale(1.2) translateY(-20px);
+                color: #FF8C00;
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) translateY(-40px);
+                color: #FF6347;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.8) translateY(-80px);
+                color: #FF4500;
+            }
+        }
+        
+        @keyframes popAndGlow {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+            }
+            50% {
+                transform: scale(1.3);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+                filter: brightness(1.5);
+            }
+            100% {
+                transform: scale(0);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+                opacity: 0;
+            }
+        }
+        
+        .game-over-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .game-over-modal {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            padding: 40px;
+            border-radius: 35px;
+            text-align: center;
+            color: #4A90E2;
+            box-shadow: 
+                0 0 40px rgba(74, 144, 226, 0.3),
+                inset 0 0 20px rgba(74, 144, 226, 0.1),
+                0 10px 30px rgba(0,0,0,0.7);
+            border: 4px solid transparent;
+            background-clip: padding-box;
+            max-width: 90vw;
+            position: relative;
+        }
+        
+        .game-over-modal::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(45deg, #2E4A6B, #4A90E2, #87CEEB, #4A90E2, #2E4A6B);
+            border-radius: 39px;
+            z-index: -1;
+            animation: blueShimmer 2s ease-in-out infinite;
+        }
+        
+        .start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .start-modal {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            padding: 50px;
+            border-radius: 35px;
+            text-align: center;
+            color: #4A90E2;
+            box-shadow: 
+                0 0 40px rgba(74, 144, 226, 0.3),
+                inset 0 0 20px rgba(74, 144, 226, 0.1),
+                0 10px 30px rgba(0,0,0,0.7);
+            border: 4px solid transparent;
+            background-clip: padding-box;
+            max-width: 90vw;
+            position: relative;
+        }
+        
+        .start-modal::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(45deg, #2E4A6B, #4A90E2, #87CEEB, #4A90E2, #2E4A6B);
+            border-radius: 39px;
+            z-index: -1;
+            animation: blueShimmer 2s ease-in-out infinite;
+        }
+        
+        .start-title {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 
+                0 0 15px rgba(74, 144, 226, 1),
+                0 0 25px rgba(74, 144, 226, 0.8),
+                0 0 35px rgba(74, 144, 226, 0.6),
+                2px 2px 4px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #2E4A6B, #4A90E2, #87CEEB, #4A90E2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: blueTitleGlow 2s ease-in-out infinite alternate;
+        }
+        
+        .retry-button, .start-button {
+            background: linear-gradient(135deg, #2E4A6B 0%, #4A90E2 50%, #87CEEB 100%);
+            border: none;
+            color: #ffffff;
+            padding: 18px 36px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: 20px 2px;
+            cursor: pointer;
+            border-radius: 40px;
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 600;
+            box-shadow: 
+                0 0 20px rgba(74, 144, 226, 0.4),
+                0 6px 20px rgba(74, 144, 226, 0.3),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .retry-button:hover, .start-button:hover {
+            background: linear-gradient(135deg, #4A90E2 0%, #2E4A6B 50%, #87CEEB 100%);
+            transform: translateY(-3px);
+            box-shadow: 
+                0 0 25px rgba(74, 144, 226, 0.5),
+                0 8px 25px rgba(74, 144, 226, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.4);
+        }
+        
+        /* スマホ対応 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .grid {
+                grid-template-columns: repeat(6, 30px);
+                grid-template-rows: repeat(12, 30px);
+            }
+            
+            .cell {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+            
+            .mobile-controls {
+                display: flex;
+            }
+            
+            .controls {
+                display: none;
+            }
+            
+            .info {
+                top: 10px;
+                right: 10px;
+                font-size: 16px;
+            }
+            
+            .next-puyo-container {
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: repeat(6, 25px);
+                grid-template-rows: repeat(12, 25px);
+            }
+            
+            .cell {
+                width: 25px;
+                height: 25px;
+                font-size: 12px;
+            }
+            
+            .control-button {
+                padding: 12px 16px;
+                font-size: 16px;
+                min-width: 50px;
+                min-height: 50px;
+            }
+            
+            .info {
+                top: 5px;
+                right: 5px;
+                font-size: 14px;
+            }
+            
+            .next-puyo-container {
+                padding: 10px;
+            }
+        }
+        
+        @keyframes blueTitleGlow {
+            0% { 
+                text-shadow: 
+                    0 0 10px rgba(74, 144, 226, 0.8),
+                    0 0 20px rgba(74, 144, 226, 0.6),
+                    0 0 30px rgba(74, 144, 226, 0.4),
+                    2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            100% { 
+                text-shadow: 
+                    0 0 15px rgba(74, 144, 226, 1),
+                    0 0 25px rgba(74, 144, 226, 0.8),
+                    0 0 35px rgba(74, 144, 226, 0.6),
+                    2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 style="
+            color: #4A90E2; 
+            font-family: 'Comfortaa', sans-serif; 
+            font-weight: 700; 
+            font-size: 2.5em; 
+            text-shadow: 
+                0 0 10px rgba(74, 144, 226, 0.8),
+                0 0 20px rgba(74, 144, 226, 0.6),
+                0 0 30px rgba(74, 144, 226, 0.4),
+                2px 2px 4px rgba(0, 0, 0, 0.5); 
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #2E4A6B, #4A90E2, #87CEEB, #4A90E2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: blueTitleGlow 2s ease-in-out infinite alternate;
+        ">GAME</h1>
+        <div class="game-board">
+            <div class="grid" id="gameGrid"></div>
+        </div>
+        <div class="info">
+            <div class="next-puyo-container">
+                <div class="next-puyo-title">NEXT</div>
+                <div class="next-puyo-display" id="nextPuyoDisplay"></div>
+            </div>
+        </div>
+        <div class="controls">
+            <p>左右矢印キー: 移動 | 上矢印キー: 回転 | 下矢印キー: 高速落下</p>
+        </div>
+        <div class="mobile-controls">
+            <div class="control-button" id="leftBtn">←</div>
+            <div class="control-button" id="rotateBtn">↻</div>
+            <div class="control-button" id="rightBtn">→</div>
+            <div class="control-button" id="downBtn">↓</div>
+        </div>
+    </div>
+
+    <script>
+        // ゲームの基本設定
+        const ROWS = 12;
+        const COLS = 6;
+        const COLORS = ['pink', 'lightblue', 'lightpurple', 'lightgreen', 'lightyellow'];
+        
+        // ゲーム状態
+        let gameBoard = [];
+        let currentPuyo = null;
+        let nextPuyo = null;
+        let gameRunning = true;
+        let dropTimer = null;
+        let chainCount = 0;
+        
+        // ゲームボードの初期化
+        function initBoard() {
+            gameBoard = [];
+            for (let row = 0; row < ROWS; row++) {
+                gameBoard[row] = [];
+                for (let col = 0; col < COLS; col++) {
+                    gameBoard[row][col] = 'empty';
+                }
+            }
+        }
+        
+        // ランダムな色を生成
+        function getRandomColor() {
+            return COLORS[Math.floor(Math.random() * COLORS.length)];
+        }
+        
+        // 新しいぷよペアを生成
+        function generateNewPuyo() {
+            return {
+                x: 2, // 中央から開始
+                y: 0,
+                color1: getRandomColor(),
+                color2: getRandomColor(),
+                rotation: 0 // 0: 縦(上下), 1: 横(左右), 2: 縦(下上), 3: 横(右左)
+            };
+        }
+        
+        // ぷよの位置を取得（回転状態に応じて）
+        function getPuyoPositions(puyo) {
+            const positions = [];
+            switch (puyo.rotation) {
+                case 0: // 縦 (上下)
+                    positions.push({ x: puyo.x, y: puyo.y, color: puyo.color1 });
+                    positions.push({ x: puyo.x, y: puyo.y + 1, color: puyo.color2 });
+                    break;
+                case 1: // 横 (左右)
+                    positions.push({ x: puyo.x, y: puyo.y, color: puyo.color1 });
+                    positions.push({ x: puyo.x + 1, y: puyo.y, color: puyo.color2 });
+                    break;
+                case 2: // 縦 (下上)
+                    positions.push({ x: puyo.x, y: puyo.y, color: puyo.color2 });
+                    positions.push({ x: puyo.x, y: puyo.y + 1, color: puyo.color1 });
+                    break;
+                case 3: // 横 (右左)
+                    positions.push({ x: puyo.x + 1, y: puyo.y, color: puyo.color1 });
+                    positions.push({ x: puyo.x, y: puyo.y, color: puyo.color2 });
+                    break;
+            }
+            return positions;
+        }
+        
+        // 位置が有効かチェック
+        function isValidPosition(puyo) {
+            const positions = getPuyoPositions(puyo);
+            for (let pos of positions) {
+                if (pos.x < 0 || pos.x >= COLS || pos.y >= ROWS) {
+                    return false;
+                }
+                if (pos.y >= 0 && gameBoard[pos.y][pos.x] !== 'empty') {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        // ぷよを固定（ばら落ち対応 - 安全版）
+        function lockPuyo() {
+            const positions = getPuyoPositions(currentPuyo);
+            
+            // まず現在の位置にぷよを配置
+            for (let pos of positions) {
+                if (pos.y >= 0 && pos.y < ROWS && pos.x >= 0 && pos.x < COLS) {
+                    gameBoard[pos.y][pos.x] = pos.color;
+                }
+            }
+            
+            // 重力による落下処理（ばら落ち）
+            applyGravity();
+            
+            // 新しいぷよを生成
+            currentPuyo = nextPuyo;
+            nextPuyo = generateNewPuyo();
+            
+            // 連鎖カウントをリセット
+            chainCount = 0;
+            
+            // ゲームオーバーチェック
+            if (!isValidPosition(currentPuyo)) {
+                gameRunning = false;
+                showGameOver();
+                return;
+            }
+            
+            render();
+            
+            // 少し待ってから連鎖チェック
+            setTimeout(() => {
+                checkForChains();
+            }, 300);
+        }
+        
+        // 重力による落下処理（ばら落ち機能）
+        function applyGravity() {
+            let moved = true;
+            
+            // 落下が完了するまで繰り返し
+            while (moved) {
+                moved = false;
+                
+                // 下から上に向かってチェック（下の行から処理）
+                for (let row = ROWS - 2; row >= 0; row--) {
+                    for (let col = 0; col < COLS; col++) {
+                        // 空でないぷよがあり、その下が空の場合
+                        if (gameBoard[row][col] !== 'empty' && gameBoard[row + 1][col] === 'empty') {
+                            // ぷよを1つ下に移動
+                            gameBoard[row + 1][col] = gameBoard[row][col];
+                            gameBoard[row][col] = 'empty';
+                            moved = true;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // 連鎖チェック（4つ以上繋がった場合のみ消去）
+        function checkForChains() {
+            const visited = Array(ROWS).fill().map(() => Array(COLS).fill(false));
+            const allPuyosToRemove = [];
+            
+            // 全てのセルを調べて4つ以上の連結を探す
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    if (!visited[row][col] && gameBoard[row][col] !== 'empty') {
+                        const connected = findConnectedPuyos(row, col, gameBoard[row][col], visited);
+                        // 4つ以上繋がった場合のみ消去対象に追加
+                        if (connected.length >= 4) {
+                            allPuyosToRemove.push(...connected);
+                        }
+                    }
+                }
+            }
+            
+            // 4つ以上繋がったぷよがある場合のみ消去処理
+            if (allPuyosToRemove.length > 0) {
+                // 連鎖カウントを増加
+                chainCount++;
+                
+                // 消去エフェクトを表示
+                highlightPuyos(allPuyosToRemove);
+                
+                // 2連鎖以上の場合、連鎖テキストを表示
+                if (chainCount >= 2) {
+                    showChainText(allPuyosToRemove, chainCount);
+                }
+                
+                setTimeout(() => {
+                    // ぷよを消去
+                    for (let puyo of allPuyosToRemove) {
+                        gameBoard[puyo.row][puyo.col] = 'empty';
+                    }
+                    
+                    // 重力による落下処理（ばら落ち）
+                    applyGravity();
+                    render();
+                    
+                    // 連鎖チェック
+                    setTimeout(() => {
+                        checkForChains();
+                    }, 300);
+                }, 600);
+            }
+            // 消去するものがない場合は何もしない（ゲーム続行）
+        }
+        
+        // 4つ以上の同色ぷよを探す（再帰的に連結を調べる）
+        function findConnectedPuyos(row, col, color, visited) {
+            if (row < 0 || row >= ROWS || col < 0 || col >= COLS) return [];
+            if (visited[row][col]) return [];
+            if (gameBoard[row][col] !== color || gameBoard[row][col] === 'empty') return [];
+            
+            visited[row][col] = true;
+            let connected = [{ row, col }];
+            
+            // 上下左右の4方向を調べる
+            const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+            for (let [dr, dc] of directions) {
+                connected = connected.concat(findConnectedPuyos(row + dr, col + dc, color, visited));
+            }
+            
+            return connected;
+        }
+        
+        // ぷよを下に移動
+        function dropPuyo() {
+            if (!currentPuyo || !gameRunning) return;
+            
+            const newPuyo = { ...currentPuyo, y: currentPuyo.y + 1 };
+            
+            if (isValidPosition(newPuyo)) {
+                currentPuyo = newPuyo;
+            } else {
+                lockPuyo();
+            }
+            
+            render();
+        }
+        
+        // ぷよを左右に移動
+        function movePuyo(direction) {
+            if (!currentPuyo || !gameRunning) return;
+            
+            const newPuyo = { ...currentPuyo, x: currentPuyo.x + direction };
+            
+            if (isValidPosition(newPuyo)) {
+                currentPuyo = newPuyo;
+                render();
+            }
+        }
+        
+        // ぷよを回転
+        function rotatePuyo() {
+            if (!currentPuyo || !gameRunning) return;
+            
+            const newPuyo = { ...currentPuyo, rotation: (currentPuyo.rotation + 1) % 4 };
+            
+            if (isValidPosition(newPuyo)) {
+                currentPuyo = newPuyo;
+                render();
+            }
+        }
+        
+        // 消去予定のぷよにエフェクト
+        function highlightPuyos(puyosToRemove) {
+            const grid = document.getElementById('gameGrid');
+            const cells = grid.children;
+            
+            for (let puyo of puyosToRemove) {
+                const cellIndex = puyo.row * COLS + puyo.col;
+                if (cells[cellIndex]) {
+                    const cell = cells[cellIndex];
+                    
+                    // 発光＆ポップエフェクト
+                    cell.style.animation = 'popAndGlow 0.6s ease-out forwards';
+                    
+                    // キラキラエフェクトを追加
+                    createSparkles(cell);
+                }
+            }
+        }
+        
+        // キラキラエフェクトを作成
+        function createSparkles(cell) {
+            const sparkleCount = 5;
+            const rect = cell.getBoundingClientRect();
+            
+            for (let i = 0; i < sparkleCount; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.textContent = '✨';
+                    
+                    // セルの周りにランダムに配置
+                    const offsetX = (Math.random() - 0.5) * 60;
+                    const offsetY = (Math.random() - 0.5) * 60;
+                    
+                    sparkle.style.position = 'fixed';
+                    sparkle.style.left = (rect.left + rect.width/2 + offsetX) + 'px';
+                    sparkle.style.top = (rect.top + rect.height/2 + offsetY) + 'px';
+                    sparkle.style.zIndex = '1000';
+                    
+                    document.body.appendChild(sparkle);
+                    
+                    // 1秒後に削除
+                    setTimeout(() => {
+                        if (sparkle.parentNode) {
+                            sparkle.parentNode.removeChild(sparkle);
+                        }
+                    }, 1000);
+                }, i * 100);
+            }
+        }
+        
+        // 連鎖テキストを表示
+        function showChainText(puyosToRemove, chainCount) {
+            if (puyosToRemove.length === 0) return;
+            
+            // 消去されるぷよの中央位置を計算
+            let centerRow = 0;
+            let centerCol = 0;
+            
+            for (let puyo of puyosToRemove) {
+                centerRow += puyo.row;
+                centerCol += puyo.col;
+            }
+            
+            centerRow = Math.floor(centerRow / puyosToRemove.length);
+            centerCol = Math.floor(centerCol / puyosToRemove.length);
+            
+            // ゲームグリッドの位置を取得
+            const grid = document.getElementById('gameGrid');
+            const gridRect = grid.getBoundingClientRect();
+            const cellSize = 35; // セルのサイズ
+            const gap = 2; // セル間のギャップ
+            
+            // 中央位置のピクセル座標を計算
+            const pixelX = gridRect.left + (centerCol * (cellSize + gap)) + (cellSize / 2);
+            const pixelY = gridRect.top + (centerRow * (cellSize + gap)) + (cellSize / 2);
+            
+            // 連鎖テキストを作成
+            const chainText = document.createElement('div');
+            chainText.className = 'chain-text';
+            chainText.textContent = `${chainCount}comb`;
+            
+            chainText.style.position = 'fixed';
+            chainText.style.left = pixelX + 'px';
+            chainText.style.top = pixelY + 'px';
+            chainText.style.transform = 'translate(-50%, -50%)';
+            
+            document.body.appendChild(chainText);
+            
+            // 2秒後に削除
+            setTimeout(() => {
+                if (chainText.parentNode) {
+                    chainText.parentNode.removeChild(chainText);
+                }
+            }, 2000);
+        }
+        
+        // 次のぷよをビジュアル表示
+        function updateNextPuyoDisplay() {
+            const display = document.getElementById('nextPuyoDisplay');
+            display.innerHTML = '';
+            
+            if (nextPuyo) {
+                // 色のついたぷよのみを表示
+                const puyos = [
+                    { color: nextPuyo.color1, position: 0 }, // 左上（上のぷよ）
+                    { color: nextPuyo.color2, position: 2 }  // 左下（下のぷよ）
+                ];
+                
+                // 4つのセルを作成（2x2グリッド）
+                for (let i = 0; i < 4; i++) {
+                    const miniCell = document.createElement('div');
+                    miniCell.className = 'mini-puyo';
+                    
+                    // 該当する位置にぷよがあるかチェック
+                    const puyoAtPosition = puyos.find(p => p.position === i);
+                    
+                    if (puyoAtPosition) {
+                        // 色のついたぷよを表示
+                        miniCell.className += ` ${puyoAtPosition.color}`;
+                    } else {
+                        // 空のセルは完全に透明にして非表示
+                        miniCell.style.backgroundColor = 'transparent';
+                        miniCell.style.border = 'none';
+                        miniCell.style.visibility = 'hidden';
+                    }
+                    
+                    display.appendChild(miniCell);
+                }
+            }
+        }
+        
+        // 画面を描画
+        function render() {
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = '';
+            
+            // 仮想ボードを作成（現在のぷよを含む）
+            const displayBoard = gameBoard.map(row => [...row]);
+            
+            if (currentPuyo && gameRunning) {
+                const positions = getPuyoPositions(currentPuyo);
+                positions.forEach(pos => {
+                    if (pos.y >= 0 && pos.y < ROWS && pos.x >= 0 && pos.x < COLS) {
+                        displayBoard[pos.y][pos.x] = pos.color;
+                    }
+                });
+            }
+            
+            // グリッドを描画
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = `cell ${displayBoard[row][col]}`;
+                    
+                    grid.appendChild(cell);
+                }
+            }
+            
+            // 次のぷよを表示
+            updateNextPuyoDisplay();
+        }
+        
+        // ゲームオーバー画面を表示
+        function showGameOver() {
+            const overlay = document.createElement('div');
+            overlay.className = 'game-over-overlay';
+            overlay.innerHTML = `
+                <div class="game-over-modal">
+                    <h2>GAME OVER</h2>
+                    <p>お疲れ様でした！</p>
+                    <button class="retry-button" onclick="retryGame()">
+                        RETRY
+                    </button>
+                    <br>
+                    <button class="start-button" onclick="backToStartScreen()">
+                        スタート画面に戻る
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+        
+        // ゲームをリトライ
+        function retryGame() {
+            // オーバーレイを削除
+            const overlay = document.querySelector('.game-over-overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+            
+            // タイマーをクリア
+            if (dropTimer) {
+                clearInterval(dropTimer);
+            }
+            
+            // ゲームを再開始
+            gameRunning = true;
+            startGame();
+        }
+        
+        // キーボード操作
+        document.addEventListener('keydown', (e) => {
+            if (!gameRunning) return;
+            
+            switch (e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    movePuyo(-1);
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    movePuyo(1);
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    rotatePuyo();
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    dropPuyo();
+                    break;
+            }
+        });
+        
+        // スマホ用タッチ操作
+        document.getElementById('leftBtn').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            movePuyo(-1);
+        });
+        
+        document.getElementById('rightBtn').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            movePuyo(1);
+        });
+        
+        document.getElementById('rotateBtn').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            rotatePuyo();
+        });
+        
+        document.getElementById('downBtn').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            dropPuyo();
+        });
+        
+        // マウスクリック操作（PC用）
+        document.getElementById('leftBtn').addEventListener('click', () => movePuyo(-1));
+        document.getElementById('rightBtn').addEventListener('click', () => movePuyo(1));
+        document.getElementById('rotateBtn').addEventListener('click', () => rotatePuyo());
+        document.getElementById('downBtn').addEventListener('click', () => dropPuyo());
+        
+        // ゲーム開始
+        function startGame() {
+            initBoard();
+            currentPuyo = generateNewPuyo();
+            nextPuyo = generateNewPuyo();
+            chainCount = 0;
+            
+            // 自動落下タイマー
+            dropTimer = setInterval(dropPuyo, 1000);
+            
+            render();
+        }
+        
+        // ページ読み込み時にスタート画面を表示
+        window.addEventListener('load', () => {
+            showStartScreen();
+        });
+        
+        // スタート画面を表示
+        function showStartScreen() {
+            const overlay = document.createElement('div');
+            overlay.className = 'start-overlay';
+            overlay.innerHTML = `
+                                <div class="start-modal">
+                    <div class="start-title">GAME</div>
+                    <p>同じ色のボールを４つ以上つなげて消して連鎖を楽しもう！</p>
+                    <div style="margin: 20px 0; font-size: 16px; color: #87CEEB; line-height: 1.6;">
+                        <div style="margin-bottom: 15px; font-weight: 600; color: #4A90E2;">操作方法</div>
+                        <div>PC: 矢印キー（移動・回転・高速落下）</div>
+                        <div>スマホ: 画面下のボタン</div>
+                    </div>
+                    <button class="start-button" onclick="startGameFromScreen()">
+                        START
+                    </button>
+                </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+        
+        // スタート画面からゲームを開始
+        function startGameFromScreen() {
+            // スタート画面を削除
+            const overlay = document.querySelector('.start-overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+            
+            // 既存のタイマーをクリア
+            if (dropTimer) {
+                clearInterval(dropTimer);
+            }
+            
+            // ゲーム状態をリセット
+            gameRunning = true;
+            currentPuyo = null;
+            nextPuyo = null;
+            chainCount = 0;
+            
+            // ゲームを開始
+            startGame();
+        }
+        
+        // スタート画面に戻る
+        function backToStartScreen() {
+            // ゲームオーバー画面を削除
+            const overlay = document.querySelector('.game-over-overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+            
+            // タイマーをクリア
+            if (dropTimer) {
+                clearInterval(dropTimer);
+            }
+            
+            // ゲーム状態をリセット
+            gameRunning = false;
+            
+            // スタート画面を表示
+            showStartScreen();
+        }
+    </script>
+</body>
+</html> 

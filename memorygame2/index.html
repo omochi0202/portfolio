@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神経衰弱ゲーム</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- スタート画面 -->
+    <div id="start-screen" class="screen active">
+        <div class="start-content">
+            <h1>Memory Game</h1>
+            <div class="button-container">
+                <button class="character-button" data-character="rabbit">うさぎ</button>
+                <button class="character-button" data-character="cat">ねこ</button>
+                <button class="character-button" data-character="sky">そら</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ゲーム画面 -->
+    <div id="game-screen" class="screen">
+        <div class="game-header">
+            <div class="game-info">
+                <span id="current-mode">イージーモード</span>
+                <div class="game-stats">
+                    <span id="score">ペア数: 0/2</span>
+                    <span id="attempts">試行回数: 0</span>
+                    <span id="timer">時間: 00:00</span>
+                </div>
+            </div>
+            <button id="back-button">戻る</button>
+        </div>
+        <div id="game-board" class="game-board"></div>
+        <div id="congratulations" class="congratulations hidden">
+            <h2>Congratulations!</h2>
+            <p id="next-level-text">次のレベルに進みます...</p>
+        </div>
+    </div>
+
+    <!-- クリア画面 -->
+    <div id="clear-screen" class="screen">
+        <div class="clear-content">
+            <h1>Perfect Clear!</h1>
+            <p>おつかれさまでした！</p>
+            <button id="restart-button">もう一度プレイ</button>
+        </div>
+    </div>
+
+    <!-- キラキラエフェクト用のキャンバス -->
+    <canvas id="sparkle-canvas"></canvas>
+
+    <script src="script.js"></script>
+</body>
+</html> 

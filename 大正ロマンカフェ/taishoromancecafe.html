@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>珈琲工房 花鳥風月 - 大正ロマンカフェ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hiragino Mincho ProN', 'Hiragino Mincho Pro', 'YuMincho', 'Yu Mincho', serif;
+            background-color: #f5f3f0;
+            color: #2c1810;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a3b2e 0%, #2d5d4a 100%);
+            color: #f5f3f0;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(215, 185, 125, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(215, 185, 125, 0.1) 0%, transparent 50%);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 0.05em;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: #d7b97d;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-style: italic;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background-color: #2d5d4a;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: #f5f3f0;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+        
+        .nav-link:hover {
+            background-color: #d7b97d;
+            color: #2c1810;
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #d7b97d 0%, #1a3b2e 100%);
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1a3b2e;
+            text-align: center;
+            position: relative;
+            letter-spacing: 0.02em;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background-color: #d7b97d;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(26, 59, 46, 0.8), rgba(26, 59, 46, 0.8)),
+                        url('/api/placeholder/1200/600') center/cover;
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 0.02em;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+        
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .story-card {
+            padding: 1.5rem;
+            background: #f9f7f4;
+            border-radius: 8px;
+            border-left: 4px solid #d7b97d;
+        }
+        
+        .story-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: #1a3b2e;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .coffee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .coffee-card {
+            background: #f9f7f4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid #e8e3d9;
+        }
+        
+        .coffee-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .coffee-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        
+        .coffee-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: #1a3b2e;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .coffee-card .origin {
+            color: #d7b97d;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .coffee-card .description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .coffee-card .price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a3b2e;
+        }
+        
+        .menu-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .menu-category {
+            background: #f9f7f4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-top: 3px solid #d7b97d;
+        }
+        
+        .menu-category h3 {
+            font-family: 'Playfair Display', serif;
+            color: #1a3b2e;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px dotted #d7b97d;
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-item-name {
+            font-weight: 600;
+        }
+        
+        .menu-item-description {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.2rem;
+        }
+        
+        .menu-item-price {
+            color: #1a3b2e;
+            font-weight: 600;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-info {
+            background: #f9f7f4;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .contact-info h3 {
+            font-family: 'Playfair Display', serif;
+            color: #1a3b2e;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .contact-item {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer {
+            background-color: #1a3b2e;
+            color: #f5f3f0;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            opacity: 0.9;
+        }
+        
+        .decorative-element {
+            text-align: center;
+            margin: 2rem 0;
+            color: #d7b97d;
+            font-size: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .story-grid, .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">珈琲工房 花鳥風月</h1>
+            <p class="subtitle">～ 大正ロマンカフェ ～</p>
+            <p class="tagline">歴史と香りが織りなす、特別なひととき</p>
+            <img src="images/insidethecafe.png" alt="カフェの内装" style="max-width: 50%; height: auto; margin-top: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+        </div>
+    </header>
+    
+    <nav>
+        <div class="nav-container">
+            <a href="#about" class="nav-link">私たちについて</a>
+            <a href="#coffee" class="nav-link">こだわりの珈琲</a>
+            <a href="#menu" class="nav-link">メニュー</a>
+            <a href="#contact" class="nav-link">アクセス・お問い合わせ</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="hero">
+            <h2>大正時代の雅な世界へようこそ</h2>
+            <p>ご夫婦が心を込めて焙煎する珈琲と、大正ロマンの美しい空間で、
+            <br>日常を忘れる特別なひとときをお過ごしください。</p>
+        </div>
+        
+        <section id="about" class="section">
+            <h2 class="section-title">私たちについて</h2>
+            <div class="story-grid">
+                <div class="story-card">
+                    <h3>📜 店主夫妻の想い</h3>
+                    <p>長年の夢だった珈琲店を、大正時代の美意識と現代の技術を融合させて実現いたしました。一杯一杯に心を込めて、お客様に最高の珈琲体験をお届けしたいと願っております。</p>
+                </div>
+                <div class="story-card">
+                    <h3>🏮 大正ロマンへの憧れ</h3>
+                    <p>大正時代の和洋折衷文化、モダンでハイカラな雰囲気に魅せられ、店内は当時の美意識を現代に蘇らせました。ステンドグラス、アンティーク家具、そして温かな照明が皆様をお迎えします。</p>
+                </div>
+                <div class="story-card">
+                    <h3>☕ 珈琲への情熱</h3>
+                    <p>世界各地から厳選した生豆を、店主が丁寧に自家焙煎。その日の天候や湿度に合わせて焙煎度合いを調整し、常に最高の状態でお客様にお出ししております。</p>
+                </div>
+                <div class="story-card">
+                    <h3>🎭 文化のある空間</h3>
+                    <p>珈琲を飲むだけでなく、大正時代の文学や芸術に触れられる空間作りを心がけています。定期的に小さな音楽会や朗読会も開催しております。</p>
+                </div>
+            </div>
+        </section>
+        
+        <div class="decorative-element">❦ ❦ ❦</div>
+        
+        <section id="coffee" class="section">
+            <h2 class="section-title">こだわりの珈琲豆</h2>
+            <p style="text-align: center; margin-bottom: 2rem; color: #666;">
+                世界各地から厳選した豆を、店主が愛情を込めて焙煎いたします。
+            </p>
+            <div class="coffee-grid">
+                <div class="coffee-card">
+                    <img src="images/acupofcoffee.png" alt="ブルーマウンテン">
+                    <h3>ブルーマウンテン</h3>
+                    <div class="origin">ジャマイカ産</div>
+                    <div class="description">
+                        珈琲の王様と呼ばれる逸品。まろやかな酸味と深いコクが特徴です。
+                    </div>
+                    <div class="price">100g ¥3,600</div>
+                </div>
+                <div class="coffee-card">
+                    <img src="images/acupofcoffee.png" alt="コナ">
+                    <h3>コナ</h3>
+                    <div class="origin">ハワイ産</div>
+                    <div class="description">
+                        南国の太陽を浴びた豆。甘い香りと上品な酸味が楽しめます。
+                    </div>
+                    <div class="price">100g ¥2,800</div>
+                </div>
+                <div class="coffee-card">
+                    <img src="images/acupofcoffee.png" alt="エチオピア イルガチェフェ">
+                    <h3>エチオピア イルガチェフェ</h3>
+                    <div class="origin">エチオピア産</div>
+                    <div class="description">
+                        花のような香りと爽やかな酸味。珈琲発祥の地の味わいです。
+                    </div>
+                    <div class="price">100g ¥1,800</div>
+                </div>
+                <div class="coffee-card">
+                    <img src="images/acupofcoffee.png" alt="花鳥風月ブレンド">
+                    <h3>花鳥風月ブレンド</h3>
+                    <div class="origin">オリジナル</div>
+                    <div class="description">
+                        店主特製ブレンド。大正ロマンの雰囲気にぴったりな深い味わい。
+                    </div>
+                    <div class="price">100g ¥1,500</div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="decorative-element">❦ ❦ ❦</div>
+        
+        <section id="menu" class="section">
+            <h2 class="section-title">お品書き</h2>
+            <div class="menu-categories">
+                <div class="menu-category">
+                    <h3>珈琲</h3>
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-item-name">花鳥風月ブレンド</div>
+                            <div class="menu-item-description">店主特製の深煎りブレンド</div>
+                        </div>
+                        <div class="menu-item-price">¥650</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-item-name">ブルーマウンテン</div>
+                            <div class="menu-item-description">珈琲の王様</div>
+                        </div>
+                        <div class="menu-item-price">¥1,200</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-item-name">コナ</div>
+                            <div class="menu-item-description">ハワイの香り</div>
+                        </div>
+                        <div class="menu-item-price">¥950</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-item-name">本日の珈琲</div>
+                            <div class="menu-item-description">季節の特選豆</div>
+                        </div>
+                        <div class="menu-item-price">¥750</div>
+                    </div>
+                </div>
+                
+                <div class="menu-category">
+                    <h3>大正浪漫スイーツ</h3>
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-item-name">カステラ</div>
+                            <div class="menu-item-description">長崎の老舗から取り寄せ</div>
+                        </div>
+                        <div class="menu-item-price">¥450</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-item-name">白玉あんみつ</div>
+                            <div class="menu-item-description">和の心を感じる一品</div>
+                        </div>
+                        <div class="menu-item-price">¥680</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-item-name">花鳥風月パフェ</div>
+                            <div class="menu-item-description">当店オリジナル</div>
+                        </div>
+                        <div class="menu-item-price">¥980</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-item-name">季節の和菓子</div>
+                            <div class="menu-item-description">老舗菓子店との コラボ</div>
+                        </div>
+                        <div class="menu-item-price">¥380</div>
+                    </div>
+                </div>
+                
+                <div class="menu-category">
+                    <h3>軽食</h3>
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-item-name">厚切りトースト</div>
+                            <div class="menu-item-description">自家製ジャム添え</div>
+                        </div>
+                        <div class="menu-item-price">¥580</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-item-name">ハイカラサンド</div>
+                            <div class="menu-item-description">大正風味のサンドイッチ</div>
+                        </div>
+                        <div class="menu-item-price">¥780</div>
+                    </div>
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-item-name">オムライス</div>
+                            <div class="menu-item-description">モダンな洋食の定番</div>
+                        </div>
+                        <div class="menu-item-price">¥1,050</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="decorative-element">❦ ❦ ❦</div>
+        
+        <section id="contact" class="section">
+            <h2 class="section-title">アクセス・お問い合わせ</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>📍 店舗情報</h3>
+                    <div class="contact-item">
+                        <strong>住所：</strong> 〒101-0021 東京都千代田区外神田1-2-3
+                    </div>
+                    <div class="contact-item">
+                        <strong>最寄駅：</strong> JR神田駅より徒歩5分
+                    </div>
+                    <div class="contact-item">
+                        <strong>営業時間：</strong> 9:00〜21:00（ラストオーダー20:30）
+                    </div>
+                    <div class="contact-item">
+                        <strong>定休日：</strong> 毎週火曜日
+                    </div>
+                    <div class="contact-item">
+                        <strong>電話：</strong> 03-1234-5678
+                    </div>
+                    <div class="contact-item">
+                        <strong>座席数：</strong> 28席（禁煙）
+                    </div>
+                </div>
+                
+                <div class="contact-info">
+                    <h3>💫 特別なご案内</h3>
+                    <div class="contact-item">
+                        🎵 <strong>第3土曜日</strong> 19:00〜 ピアノミニコンサート
+                    </div>
+                    <div class="contact-item">
+                        📚 <strong>第2日曜日</strong> 14:00〜 文学朗読会
+                    </div>
+                    <div class="contact-item">
+                        ☕ <strong>平日</strong> 15:00〜17:00 珈琲教室
+                    </div>
+                    <div class="contact-item">
+                        🎁 <strong>記念日</strong> 特別コース承ります
+                    </div>
+                    <div class="contact-item">
+                        📦 <strong>珈琲豆</strong> テイクアウト・配送可
+                    </div>
+                    <div class="contact-item">
+                        💒 <strong>貸切</strong> プライベートパーティー承ります
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2024 珈琲工房 花鳥風月. すべての権利を保有しています。</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">大正時代の雅な世界で、心安らぐひとときを。</p>
+    </footer>
+    
+    <script>
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // ページロード時のアニメーション
+        window.addEventListener('load', function() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                
+                setTimeout(() => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
