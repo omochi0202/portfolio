@@ -4,7 +4,8 @@ GitHub Pagesを使って公開しています。
 
 ## 🌐 公開URL
 
-[https://omochi0202/portfolio.github.io/](https://omochi0202/portfolio.github.io/)
+[https://omochi0202.github.io/portfplio](https://omochi0202.github.io/portfolio)
+
 
 ## 📂 主なコンテンツ
 
