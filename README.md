@@ -8,15 +8,14 @@ GitHub Pagesを使って公開しています。
 
 ## 📂 主なコンテンツ
 
-- 自己紹介
 - 制作したWebサイトやゲームの一覧
 - 使用スキルや実績
-- お問い合わせリンク（SNSなど）
 
 ## 🛠 使用技術
 
 - HTML5 / CSS3
 - JavaScript
+- cursor midjourney
 - Git / GitHub
 - GitHub Pages
 
