@@ -46,13 +46,14 @@ body {
 
 .logo h1 {
     color: var(--primary-color);
-    font-size: 1.5rem;
+    font-size: 2.5rem;
+    font-weight: bold;
 }
 
 /* ヒーローセクション */
 .hero {
     background-color: var(--background-color);
-    padding: 120px 20px 60px;
+    padding: 120px 20px 20px;
     text-align: center;
 }
 
@@ -62,9 +63,12 @@ body {
 }
 
 .hero-text {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     color: var(--primary-color);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    font-family: "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", Meiryo, メイリオ, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.1em;
 }
 
 /* 画像グリッド */
@@ -72,7 +76,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
-    margin: 2rem 0;
+    margin: 0 0 2rem 0;
 }
 
 .recommend-img-grid img {
@@ -84,7 +88,7 @@ body {
 
 /* 特徴セクション */
 .features {
-    padding: 80px 0;
+    padding: 40px 0 80px 0;
     background-color: #fff;
 }
 

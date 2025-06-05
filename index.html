@@ -186,6 +186,13 @@
       color: #bbb;
     }
     @media (max-width: 900px) {
+      .hero {
+        height: 250px;
+      }
+      .hero-content {
+        font-size: 2.5rem;
+        letter-spacing: 0.3em;
+      }
       .portfolio-grid {
         grid-template-columns: repeat(2, 200px);
         gap: 20px;
@@ -204,6 +211,15 @@
         letter-spacing: 0.2em;
       }
     }
+    @media (max-width: 480px) {
+      .hero {
+        height: 200px;
+      }
+      .hero-content {
+        font-size: 1.8rem;
+        letter-spacing: 0.2em;
+      }
+    }
   </style>
 </head>
 <body>
@@ -218,18 +234,24 @@
     <div class="category-section">
       <h2 class="category-title">Website</h2>
       <div class="portfolio-grid">
-        <div class="portfolio-item" style="background-image: url('img/soccerteam.png')" data-bg="img/soccerteam.png">
-          <div class="portfolio-title">soccer team</div>
-          <div class="portfolio-desc">CI 2017</div>
-        </div>
-        <div class="portfolio-item" style="background-image: url('img/romancecafe.png')" data-bg="img/romancecafe.png">
-          <div class="portfolio-title">珈琲工房　花鳥風月</div>
-          <div class="portfolio-desc">2025</div>
-        </div>
-        <div class="portfolio-item" style="background-image: url('img/img2.jpg')" data-bg="img/img2.jpg">
-          <div class="portfolio-title">comming soon</div>
-          <div class="portfolio-desc">2025</div>
-        </div>
+        <a href="soccer team/index.html" style="text-decoration: none; color: inherit;">
+          <div class="portfolio-item" style="background-image: url('img/soccerteam.png')" data-bg="img/soccerteam.png">
+            <div class="portfolio-title">soccer team</div>
+            <div class="portfolio-desc">CI 2017</div>
+          </div>
+        </a>
+        <a href="大正ロマンカフェ/taishoromancecafe.html" style="text-decoration: none; color: inherit;">
+          <div class="portfolio-item" style="background-image: url('img/romancecafe.png')" data-bg="img/romancecafe.png">
+            <div class="portfolio-title">珈琲工房　花鳥風月</div>
+            <div class="portfolio-desc">2025</div>
+          </div>
+        </a>
+        <a href="花の定期便/index.html" style="text-decoration: none; color: inherit;">
+          <div class="portfolio-item" style="background-image: url('img/hananoteikibin.png')" data-bg="img/hananoteikibin.png">
+            <div class="portfolio-title">ナチュラルフラワー定期便</div>
+            <div class="portfolio-desc">2025</div>
+          </div>
+        </a>
       </div>
     </div>
 
@@ -237,14 +259,18 @@
     <div class="category-section">
       <h2 class="category-title">Game</h2>
       <div class="portfolio-grid">
-        <div class="portfolio-item" style="background-image: url('img/game1.png')" data-bg="img/game1.png">
-          <div class="portfolio-title">パズルゲーム</div>
-          <div class="portfolio-desc">2025</div>
-        </div>
-        <div class="portfolio-item" style="background-image: url('img/memorygame.png')" data-bg="img/img4.jpg">
-          <div class="portfolio-title">神経衰弱</div>
-          <div class="portfolio-desc">2025</div>
-        </div>
+        <a href="puyopuyo/puyo_puyo_fixed.html" style="text-decoration: none; color: inherit;">
+          <div class="portfolio-item" style="background-image: url('img/game1.png')" data-bg="img/game1.png">
+            <div class="portfolio-title">パズルゲーム</div>
+            <div class="portfolio-desc">2025</div>
+          </div>
+        </a>
+        <a href="memorygame2/index.html" style="text-decoration: none; color: inherit;">
+          <div class="portfolio-item" style="background-image: url('img/memorygame.png')" data-bg="img/img4.jpg">
+            <div class="portfolio-title">神経衰弱</div>
+            <div class="portfolio-desc">2025</div>
+          </div>
+        </a>
       </div>
     </div>
 
