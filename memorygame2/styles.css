@@ -654,6 +654,31 @@ body {
         gap: 10px;
         font-size: 0.8rem;
     }
+    
+    /* 小さいスマホ用のCongratulationsメッセージ調整 */
+    .congratulations h2 {
+        font-size: 1.2rem;
+        line-height: 1.3;
+        word-break: break-word;
+    }
+    
+    .congratulations p {
+        font-size: 0.9rem;
+    }
+}
+
+/* さらに小さい画面用の調整 */
+@media (max-width: 360px) {
+    .congratulations h2 {
+        font-size: 1rem;
+        line-height: 1.2;
+        word-break: break-word;
+    }
+    
+    .congratulations {
+        padding: 20px 15px;
+        width: 95%;
+    }
 }
 
 /* 登場時のバウンスアニメーション */
